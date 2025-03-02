@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "543723301135",
+    "project_id": "web-authentication-39260",
+    "storage_bucket": "web-authentication-39260.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543723301135:android:e2276cdc104226e789767a",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.android.ias_lab2_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543723301135-8h15m07g4rkdq1mubps8757rpoof8fbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZNq1FcJzTNABwc6xXmDJ0qJ-1dJqtM2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543723301135-8h15m07g4rkdq1mubps8757rpoof8fbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
