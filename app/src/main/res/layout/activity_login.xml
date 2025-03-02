@@ -42,8 +42,6 @@
             android:layout_height="wrap_content">
         </com.google.android.material.textfield.TextInputEditText>
 
-
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
