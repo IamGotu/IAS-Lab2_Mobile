@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">IAS-Lab2_Mobile</string>
+
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="register">Register</string>
+
+    <string name="user_details">Hello User</string>
     <string name="first_name">First Name</string>
     <string name="middle_name">Middle Name</string>
     <string name="last_name">Last Name</string>
@@ -10,7 +14,4 @@
 
     <string name="click_to_login">Click to Login</string>
     <string name="click_to_register">Click to Register</string>
-
-    <item name="btn_login" type="id">Login</item>
-    <item name="btn_register" type="id">Register</item>
 </resources>
