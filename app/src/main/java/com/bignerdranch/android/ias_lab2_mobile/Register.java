@@ -77,32 +77,44 @@ public class Register extends AppCompatActivity {
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Authentication successful.",
-                                            Toast.LENGTH_SHORT).show();
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            // Send verification email
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(Register.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(Register.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                             }
-                        });
+                            Toast.makeText(Register.this, "Account created. Please verify your email.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If registration fails, display a message to the user.
+                            Toast.makeText(Register.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
