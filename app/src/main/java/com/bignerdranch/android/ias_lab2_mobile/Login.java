@@ -76,34 +76,38 @@ public class Login extends AppCompatActivity {
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Login successful.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(Login.this, "Login failed.",
-                                            Toast.LENGTH_SHORT).show();
-
-                                }
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            // Check if email is verified
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_SHORT).show();
+                                mAuth.signOut(); // Sign out the user if email is not verified
                             }
-                        });
+                        } else {
+                            Toast.makeText(Login.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
