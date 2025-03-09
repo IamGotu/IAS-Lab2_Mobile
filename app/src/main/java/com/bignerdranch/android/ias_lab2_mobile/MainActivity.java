@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,14 +38,26 @@ public class MainActivity extends AppCompatActivity {
         buttonLogout = findViewById(R.id.btn_logout);
         textView = findViewById(R.id.user_details);
         user = mAuth.getCurrentUser();
+
+        // Check if the user is logged in and email is verified
         if (user == null) {
+            // If the user is not logged in, redirect to Login activity
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        } else if (!user.isEmailVerified()) {
+            // If the user is logged in but email is not verified, redirect to Login activity
+            Toast.makeText(this, "Please verify your email address.", Toast.LENGTH_SHORT).show();
+            mAuth.signOut(); // Sign out the user
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
         } else {
+            // If the user is logged in and email is verified, display their email
             textView.setText(user.getEmail());
         }
 
+        // Handle logout button click
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
